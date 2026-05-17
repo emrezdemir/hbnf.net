@@ -35,7 +35,64 @@
     document.title = titleEl.textContent;
     root.innerHTML = renderGame(game);
     wirePlayButton(game);
+    wireLightbox(game);
     setVersion(data.version);
+  }
+
+  function wireLightbox(game) {
+    var shots = Array.isArray(game.screenshots) ? game.screenshots : [];
+    if (shots.length === 0) return;
+
+    var lb = document.querySelector("#lightbox");
+    var imgEl = lb.querySelector(".lightbox-img");
+    var captionEl = lb.querySelector(".lightbox-caption");
+    var prevBtn = lb.querySelector(".lightbox-prev");
+    var nextBtn = lb.querySelector(".lightbox-next");
+    var closeBtn = lb.querySelector(".lightbox-close");
+    var current = 0;
+
+    function show(i) {
+      current = (i + shots.length) % shots.length;
+      imgEl.src = shots[current];
+      imgEl.alt = game.title + " — görsel " + (current + 1);
+      captionEl.textContent = (current + 1) + " / " + shots.length;
+      prevBtn.hidden = shots.length <= 1;
+      nextBtn.hidden = shots.length <= 1;
+    }
+
+    function open(i) {
+      show(i);
+      lb.hidden = false;
+      document.body.style.overflow = "hidden";
+      closeBtn.focus();
+    }
+
+    function close() {
+      lb.hidden = true;
+      document.body.style.overflow = "";
+      imgEl.src = "";
+    }
+
+    document.querySelectorAll(".shot").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        open(parseInt(btn.dataset.shotIndex, 10) || 0);
+      });
+    });
+
+    prevBtn.addEventListener("click", function () { show(current - 1); });
+    nextBtn.addEventListener("click", function () { show(current + 1); });
+    closeBtn.addEventListener("click", close);
+
+    lb.addEventListener("click", function (e) {
+      if (e.target === lb || e.target.classList.contains("lightbox-backdrop")) close();
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (lb.hidden) return;
+      if (e.key === "Escape") close();
+      else if (e.key === "ArrowLeft") show(current - 1);
+      else if (e.key === "ArrowRight") show(current + 1);
+    });
   }
 
   function renderGame(game) {
@@ -73,10 +130,10 @@
 
     var shots = Array.isArray(game.screenshots) && game.screenshots.length
       ? '<div class="screenshots">' +
-          game.screenshots.map(function (src) {
-            return '<a class="shot" href="' + escapeAttr(src) + '" target="_blank" rel="noopener">' +
+          game.screenshots.map(function (src, i) {
+            return '<button type="button" class="shot" data-shot-index="' + i + '" aria-label="Görseli büyüt">' +
                      '<img src="' + escapeAttr(src) + '" alt="' + escapeAttr(game.title) + '" loading="lazy">' +
-                   "</a>";
+                   "</button>";
           }).join("") +
         "</div>"
       : "";

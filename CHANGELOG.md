@@ -7,6 +7,13 @@ sürümleme [Semantic Versioning](https://semver.org/spec/v2.0.0.html) ile yapı
 
 ## [Unreleased]
 
+## [0.4.1] - 2026-05-17
+
+### Changed
+- Screenshot tıklaması artık yeni sekmede ham görseli açmak yerine **lightbox modal** açıyor
+  - ESC ile kapat · ← / → ile gez · dışına tıkla kapat
+  - Mobil için kompakt kontroller, neon glow ile blur backdrop
+
 ## [0.4.0] - 2026-05-17
 
 ### Added
@@ -55,7 +62,8 @@ sürümleme [Semantic Versioning](https://semver.org/spec/v2.0.0.html) ile yapı
 - Hub'a oyun ekleme/listeleme akışı için README dokümantasyonu
 - `CHANGELOG.md`, `VERSION`, `CLAUDE.md`, `.gitignore`
 
-[Unreleased]: https://github.com/emrezdemir/hbnf.net/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/emrezdemir/hbnf.net/compare/v0.4.1...HEAD
+[0.4.1]: https://github.com/emrezdemir/hbnf.net/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/emrezdemir/hbnf.net/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/emrezdemir/hbnf.net/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/emrezdemir/hbnf.net/compare/v0.1.0...v0.2.0
