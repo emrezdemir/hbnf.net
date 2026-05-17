@@ -6,7 +6,7 @@
  *   year?, controls?
  */
 window.HBNF_DATA = {
-  version: "0.5.1",
+  version: "0.6.0",
   games: [
     {
       id: "time-echo",
