@@ -6,7 +6,7 @@
  *   year?, controls?
  */
 window.HBNF_DATA = {
-  version: "0.5.0",
+  version: "0.5.1",
   games: [
     {
       id: "time-echo",
@@ -14,7 +14,7 @@ window.HBNF_DATA = {
       description: "An abandoned space station. Time echoes. Your past will save you.",
       longDescription: "Terk edilmiş bir uzay istasyonunda geçen, zaman manipülasyonu üzerine kurulu bir bulmaca oyunu. Geçmişteki hareketlerin yankıları, bulmacaları çözmek için yardımcın olur. Godot 4 ile geliştirildi, tarayıcıda oynanabilir.",
       type: "embed",
-      url: "https://hbnf.net/time-echo",
+      url: "https://time-echo.hbnf.net/",
       repo: "https://github.com/emrezdemir/echo-game.io",
       tags: ["godot", "puzzle", "time"],
       status: "live",
