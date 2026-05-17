@@ -6,25 +6,24 @@ Emre Özdemir tarafından geliştirilen oyunların yayınlandığı kişisel gam
 
 ## Hakkında
 
-Bu repo `hbnf.net` adresinde yayınlanan statik game hub sitesinin kaynak kodunu içerir. Hub, geliştirdiğim oyunları tek bir yerden gezilebilir ve oynanabilir hale getirir:
+Bu repo `hbnf.net` adresinde yayınlanan statik game hub sitesinin kaynak kodunu içerir. Hub, geliştirdiğim oyunları tek bir yerden gezilebilir ve oynanabilir hale getirir.
 
-- **Web oyunları** doğrudan tarayıcıda embed edilir
-- **Native / Steam oyunları** ilgili mağaza sayfalarına yönlendirilir
+**Mimari:** Her oyun kendi subdomain'inde ayrı bir Coolify app olarak deploy edilir (örn. `time-echo.hbnf.net`). Hub yalnızca vitrin/launcher görevi görür; oyun kartına tıklayınca `game.html?id=<slug>` üzerinden iframe ile oyunu yükler.
 
 ## Yapı
 
 ```
 .
-├── index.html          # Hub ana sayfası
-├── game.html           # Oyun detay sayfası (?id=<oyun>)
+├── index.html          # Hub ana sayfası — oyun grid'i + pagination
+├── game.html           # Iframe player sayfası (?id=<oyun>)
 ├── assets/
-│   ├── css/style.css   # Stiller (dark + neon)
-│   └── js/
-│       ├── main.js     # Hub: pagination + grid render
-│       └── game.js     # Detay sayfası: oyna / repo
+│   ├── css/style.css   # Tema (dark + neon), layout, lightbox
+│   ├── js/main.js      # Hub render
+│   ├── js/game.js      # Iframe player + fullscreen + lightbox
+│   └── img/            # Oyun kapakları ve ekran görüntüleri
 ├── data/
 │   └── games.js        # Oyun listesi (window.HBNF_DATA, inline)
-├── games/              # (Opsiyonel) lokal embed oyunları
+├── games/              # Boş — gelecekteki lokal embed'ler için ayrıldı
 ├── CHANGELOG.md
 ├── VERSION
 └── CLAUDE.md           # AI asistan context'i
@@ -44,22 +43,29 @@ Tam statik site — **build adımı yok, bağımlılık yok**. İki yol:
 
 ## Yeni Oyun Ekleme
 
-1. `data/games.js` içindeki `games: [ ... ]` dizisine yeni bir obje ekle:
+1. Oyunu kendi repo'sunda geliştir, HTML build çıkar.
+2. **Coolify'da yeni app:** Build Pack: Static, Domain: `https://<slug>.hbnf.net`. (DNS A record veya wildcard `*.hbnf.net` ayarlı olmalı.)
+3. Bu hub repo'sunda `data/games.js` → yeni entry:
    ```js
    {
      id: "oyun-adi",
      title: "Oyun Adı",
      description: "Kısa açıklama",
-     type: "embed",                          // "embed" veya "link"
-     url: "https://hbnf.net/oyun-adi",       // embed: oynanacak URL, link: hedef URL
-     repo: "https://github.com/.../...",     // opsiyonel, REPOYA GİT butonu için
+     longDescription: "Daha uzun açıklama (opsiyonel)",
+     type: "embed",                              // "embed" → iframe, "link" → yeni sekme
+     url: "https://oyun-adi.hbnf.net/",          // embed → iframe src, link → target URL
+     repo: "https://github.com/.../...",         // opsiyonel, REPO butonu
      tags: ["puzzle", "2d"],
-     status: "live",                          // "live" | "wip" | "soon"
-     year: 2026
+     status: "live",                              // "live" | "wip" | "soon"
+     year: 2026,
+     controls: "WASD — hareket · SPACE — ...",   // opsiyonel
+     thumbnail: "assets/img/oyun-adi-cover.png", // opsiyonel
+     screenshots: ["assets/img/...", "..."]      // opsiyonel, lightbox galerisi
    }
    ```
-2. Lokal embed istersen `games/<id>/index.html` koy ve `url: "games/<id>/"` yaz.
-3. `CHANGELOG.md`'ye not düş, `VERSION` bump et (`data/games.js`'deki `version` ile senkron).
+4. Görselleri `assets/img/<slug>-cover.png` ve `assets/img/<slug>-gameplay.png` olarak koy.
+5. `CHANGELOG.md` + kök `VERSION` + `data/games.js`'deki `version` bump et.
+6. Commit & push → Coolify hub'ı otomatik redeploy eder.
 
 ## Deploy — Coolify
 
