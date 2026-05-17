@@ -7,6 +7,20 @@ sürümleme [Semantic Versioning](https://semver.org/spec/v2.0.0.html) ile yapı
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-05-17
+
+### Changed
+- **`game.html` artık doğrudan iframe player**: detay sayfası UX'i kaldırıldı, "OYNA" butonuna basma adımı yok — sayfa açıldığında oyun otomatik yüklü gelir
+- Sayfa düzeni: üstte ince başlık çubuğu (← Hub · başlık · FULLSCREEN · NEW TAB · REPO) → iframe → altında kompakt açıklama/kontroller/screenshots
+- Iframe için **FULLSCREEN** ve **NEW TAB** butonları eklendi
+- `game.html` daha geniş layout (1500px) — oyun alanı için yer
+- "Soon" statüsündeki oyunlar için boş player state'i (dashed border + bilgi metni)
+
+### Notes
+- Direkt oyun URL'i: `hbnf.net/<id>` (Coolify'da ayrı app olarak deploy)
+- Hub içinden iframe ile oyun: `hbnf.net/game.html?id=<id>` (hub wrapper)
+- İkisi farklı UX — direkt link paylaşmak için ilki, hub içinden gezinmek için ikincisi
+
 ## [0.4.1] - 2026-05-17
 
 ### Changed
@@ -62,7 +76,8 @@ sürümleme [Semantic Versioning](https://semver.org/spec/v2.0.0.html) ile yapı
 - Hub'a oyun ekleme/listeleme akışı için README dokümantasyonu
 - `CHANGELOG.md`, `VERSION`, `CLAUDE.md`, `.gitignore`
 
-[Unreleased]: https://github.com/emrezdemir/hbnf.net/compare/v0.4.1...HEAD
+[Unreleased]: https://github.com/emrezdemir/hbnf.net/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/emrezdemir/hbnf.net/compare/v0.4.1...v0.5.0
 [0.4.1]: https://github.com/emrezdemir/hbnf.net/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/emrezdemir/hbnf.net/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/emrezdemir/hbnf.net/compare/v0.2.0...v0.3.0
